@@ -1,7 +1,8 @@
 module App exposing (..)
 
-import Html exposing (Html, button, div, text, program)
-import Html.Events exposing (onClick)
+import Html exposing (Html, div, text, program)
+import Mouse
+import Keyboard
 
 
 -- MODEL
@@ -19,8 +20,8 @@ init =
 -- MESSAGES
 
 type Msg
-    = Increment Int 
-
+    = MouseMsg Mouse.Position
+    | KeyMsg Keyboard.KeyCode
 
 
 -- VIEW
@@ -28,9 +29,8 @@ type Msg
 view : Model -> Html Msg
 view model =
     div []
-        [ button [ onClick (Increment 2) ] [ text "+" ]
-        , text (toString model)
-        ]
+        [ text (toString model) ]
+
 
 
 
@@ -41,15 +41,23 @@ view model =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Increment howMuch ->
-            ( model + howMuch, Cmd.none )
+        MouseMsg position ->
+            ( model + 1, Cmd.none )
+
+        KeyMsg code ->
+            ( model + 2, Cmd.none )
 
 
 -- SUBSCRIPTIONS
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    Sub.batch
+        [ Mouse.clicks MouseMsg
+        , Keyboard.downs KeyMsg
+        ]
+
+
 
 
 
