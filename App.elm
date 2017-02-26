@@ -8,12 +8,12 @@ import Keyboard
 -- MODEL
 
 type alias Model =
-    {counter: Int}
+    {counter: Int, value: Int}
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model 0, Cmd.none )
+    ( Model 0 0, Cmd.none )
 
 
 
@@ -29,11 +29,10 @@ type Msg
 view : Model -> Html Msg
 view model =
     div []
-        [ text (toString model.counter) ]
-
-
-
-
+        [   
+            div [] [ text (toString model.counter) ],
+            div [] [ text (toString model.value) ]
+        ]
 
 
 -- UPDATE
@@ -42,9 +41,13 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         MouseMsg position ->
-            ( {model | counter = (model.counter + 1)}, Cmd.none )
+            ( { model | 
+                counter = (model.counter + 1),
+                value = position.x}, Cmd.none )
         KeyMsg code ->
-            ( {model | counter = (model.counter + 2)}, Cmd.none )
+            ( {model | 
+                counter = (model.counter + 2),
+                value = code}, Cmd.none )
 
 
 -- SUBSCRIPTIONS
