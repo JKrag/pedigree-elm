@@ -4,7 +4,7 @@
     "repository": "https://github.com/JKrag/pedigree-elm.git",
     "license": "GPL3",
     "source-directories": [
-        "."
+        "src"
     ],
     "exposed-modules": [],
     "dependencies": {
